@@ -4,11 +4,11 @@ import User from "@/models/User";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    const { email, password, name } = await request.json();
 
-    if (!email || !password) {
+    if (!email || !password || !name) {
       return NextResponse.json(
-        { error: "Email and Password are required." },
+        { error: "Email, Password and Name are required." },
         { status: 400 }
       );
     }
@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
     await User.create({
       email,
       password,
+      name
     });
 
     return NextResponse.json(

@@ -1,2 +1,42 @@
 @import "tailwindcss";
 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #030712;
+}
+
+html,
+body,
+:root {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@layer components {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: theme("colors.gray.400");
+    -webkit-box-shadow: 0 0 0px 1000px theme("colors.gray.800") inset;
+  }
+}

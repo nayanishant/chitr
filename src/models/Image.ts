@@ -24,7 +24,7 @@ const imageSchema = new Schema<IImage>(
       unique: true,
     },
     userId: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
     width: Number,

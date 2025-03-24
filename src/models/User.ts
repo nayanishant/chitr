@@ -1,9 +1,10 @@
-import mongoose, { model, models, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
 export interface IUser {
   email: string;
   password: string;
+  name: string;
   _id?: mongoose.Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
@@ -20,6 +21,10 @@ const userSchema = new Schema<IUser> (
       type: String,
       required: true,
     },
+    name: {
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true,
@@ -33,6 +38,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-const User = models?.User || model<IUser>("User", userSchema);
+const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 
 export default User;
