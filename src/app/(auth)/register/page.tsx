@@ -52,11 +52,11 @@ export default function Register() {
   return (
     <div className="h-full flex justify-between items-center bg-gray-950 flex-col p-1">
       <div className="flex justify-center items-center h-9/10 flex-col gap-8">
-        <p className="text-white text-4xl">TasveerJunction</p>
-        <p className="text-white text-2xl">Register to get full access</p>
+        <p className="text-white text-2xl sm:text-3xl md:text-5xl xl:text-5xl">TasveerJunction</p>
+        <p className="text-white text-[12px] sm:text-[16px] md:text-2xl xl:text-2xl">Register to get full access</p>
         <form
           onSubmit={handleRegister}
-          className="flex flex-col items-center gap-3 text-gray-400 w-lg p-2"
+          className="flex flex-col items-center gap-3 text-gray-400 w-[20rem] p-2 sm:w-sm md:w-md xl:w-xl"
         >
           <input
             type="text"
@@ -82,7 +82,7 @@ export default function Register() {
             onChange={handleChange}
             className="w-full border border-gray-600 rounded p-2 outline-none focus:ring-2 focus:ring-gray-700 bg-gray-900 text-white"
           />
-          <p className="text-gray-400 text-sm text-center">
+          <p className="text-gray-400 text-[12px] sm:text-[16px] md:text-sm text-center">
             Already have an account?{" "}
             <a href="/login" className="underline text-blue-400">
               Log In
@@ -91,7 +91,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-[8rem] bg-gray-700 p-2 text-white rounded cursor-pointer hover:bg-gray-600 uppercase"
+            className="w-[5rem] text-[9px] sm:text-[14px] md:text-[20px] sm:w-[10rem] md:w-[12rem] xl:w-[12rem] bg-gray-700 p-2 text-white rounded cursor-pointer hover:bg-gray-600 uppercase"
           >
             {loading ? "Registering..." : "Register"}
           </button>

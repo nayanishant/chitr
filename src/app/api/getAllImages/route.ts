@@ -18,9 +18,10 @@ export async function GET() {
 
     return NextResponse.json({ images }, { status: 200 });
   } catch (error: any) {
-    console.error("❌ Error fetching latest images:", error);
+    console.error("❌ API Error:", error);
+    
     return NextResponse.json(
-      { error: "Failed to fetch images" },
+      { error: "Failed to fetch images", details: error.message },
       { status: 500 }
     );
   }

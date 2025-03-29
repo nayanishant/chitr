@@ -18,7 +18,7 @@ export default withAuth(
           return true;
         }
 
-        if (pathname === "/" || pathname.startsWith("/api/images")) {
+        if (pathname === "/" || pathname.startsWith("/api/getAllImages")) {
           return true;
         }
         return !!token;

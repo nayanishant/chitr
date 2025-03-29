@@ -42,11 +42,11 @@ export default function SignIn() {
   return (
     <div className="h-full flex justify-between items-center bg-gray-950 flex-col p-1">
       <div className="flex justify-center items-center h-9/10 flex-col gap-8">
-        <p className="text-white text-4xl">TasveerJunction</p>
-        <p className="text-white text-2xl">Log in to your account</p>
+        <p className="text-white text-2xl sm:text-3xl md:text-5xl xl:text-5xl">TasveerJunction</p>
+        <p className="text-white text-[12px] sm:text-[16px] md:text-2xl xl:text-2xl">Log in to your account</p>
         <form
           method="post"
-          className="flex flex-col items-center gap-3 text-gray-400 w-lg p-2"
+          className="flex flex-col items-center gap-3 text-gray-400 w-[20rem] p-2 sm:w-sm md:w-md xl:w-xl"
           onSubmit={handleSignIn}
         >
           <input
@@ -65,14 +65,14 @@ export default function SignIn() {
             onChange={handleChange}
             className="border-2 border-gray-800 rounded p-2 w-full outline-none focus:ring-2 focus:ring-gray-700"
           />
-          <p className="text-gray-400 text-sm text-center">
+          <p className="text-gray-400 text-[12px] sm:text-[16px] md:text-sm text-center">
             Not Registered?{" "}
             <a href="/register" className="underline text-blue-400">
               Register
             </a>
           </p>
           <button
-            className="w-[8rem] bg-gray-700 p-2 text-white rounded cursor-pointer hover:bg-gray-600 uppercase"
+            className="w-[4rem] text-[12px] sm:text-[16px] sm:w-[6rem] md:w-[8rem] bg-gray-700 p-2 text-white rounded cursor-pointer hover:bg-gray-600 uppercase"
             type="submit"
             disabled={loading}
           >

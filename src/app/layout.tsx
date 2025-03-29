@@ -1,8 +1,11 @@
+"use Client"
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
-import { EdgeStoreProvider } from '../lib/edgestore';
+import { EdgeStoreProvider } from "../lib/edgestore";
+import SessionProviderWrapper from "./components/SessionProviderWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +34,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster richColors position="top-right" />
-        <EdgeStoreProvider>{children}</EdgeStoreProvider>
+        <SessionProviderWrapper>
+          <EdgeStoreProvider>{children}</EdgeStoreProvider>
+        </SessionProviderWrapper>
       </body>
     </html>
   );

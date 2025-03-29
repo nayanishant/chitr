@@ -2,6 +2,7 @@
 
 import { useEdgeStore } from "@/lib/edgestore";
 import { useState } from "react";
+import { signOut } from "next-auth/react"; // 🔹 Import signOut
 import SingleImageDropzone from "@/app/components/SingleImageDropzone";
 import { toast } from "sonner";
 
@@ -10,16 +11,18 @@ export default function SingleImageDropzoneUsage() {
   const { edgestore } = useEdgeStore();
 
   return (
-    <div className="flex flex-col justify-center items-center h-full gap-1.5">
+    <div className="flex flex-col justify-center items-center h-full gap-4 p-4 sm:p-6">
       <SingleImageDropzone
         width={550}
         height={550}
         value={file}
         onChange={(file) => setFile(file)}
+        className="max-w-[90vw] sm:max-w-[550px]"
       />
+      
       <button
-        className="w-[8rem] bg-gray-700 p-2 text-white rounded cursor-pointer hover:bg-gray-600 uppercase"
-
+        className="w-[8rem] md:w-[10rem] bg-gray-700 p-2 text-white rounded cursor-pointer 
+        hover:bg-gray-600 uppercase text-sm md:text-base transition-all"
         onClick={async () => {
           if (!file) {
             toast.error("Please select a file first.");
@@ -81,10 +84,17 @@ export default function SingleImageDropzoneUsage() {
             console.error("❌ Upload Failed:", error);
           }
         }}
-        
       >
         Upload
       </button>
+      <button
+        className="w-[8rem] md:w-[10rem] bg-red-600 p-2 text-white rounded cursor-pointer 
+        hover:bg-red-500 uppercase text-sm md:text-base transition-all mt-4"
+        onClick={() => signOut()} // 🔹 Calls NextAuth's signOut function
+      >
+        Logout
+      </button>
+
     </div>
   );
 }

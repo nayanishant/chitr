@@ -3,13 +3,13 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
+import { FaTrash } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
 interface ImageData {
   _id: string;
   url: string;
   publicId: string;
-  width?: number;
-  height?: number;
   createdAt: string;
   userId?: {
     _id: string;
@@ -20,7 +20,7 @@ interface ImageData {
 export default function LatestImages() {
   const [images, setImages] = useState<ImageData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -35,7 +35,6 @@ export default function LatestImages() {
         setImages(data.images);
         toast.success("Latest images loaded successfully! 🎉");
       } catch (err) {
-        setError("Failed to load images. Please try again later.");
         toast.error("Error loading images. Please refresh the page!");
       } finally {
         setLoading(false);
@@ -45,30 +44,59 @@ export default function LatestImages() {
     fetchImages();
   }, []);
 
+  const handleDelete = async (imageId: string) => {
+    const toastId = toast.loading("Deleting image...");
+
+    try {
+      const res = await fetch("/api/deleteImage", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageId }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to delete image");
+      }
+
+      setImages(images.filter((image) => image._id !== imageId));
+      toast.success("✅ Image deleted successfully!", { id: toastId });
+    } catch (error: any) {
+      toast.error(error.message, { id: toastId });
+    }
+  };
+
   return (
-    <div>
-      {/* Sonner Toaster for Notifications */}
+    <div className="bg-gray-950 min-h-screen flex flex-col items-center">
       <Toaster richColors position="top-right" />
+      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-5 gap-4 px-4 py-4 w-full max-w-6xl">
+        {loading && <p className="text-center text-white">Loading images...</p>}
 
-      {loading && <p className="text-center">Loading images...</p>}
-      {error && <p className="text-red-500 text-center">{error}</p>}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
         {images.map((image) => (
-          <div key={image._id} className="border rounded-lg shadow p-2">
+          <div key={image._id} className="relative mb-4 break-inside-avoid">
             <Image
               src={image.url}
               alt={image.publicId}
-              width={image.width || 300}
-              height={image.height || 200}
-              className="w-full h-48 object-cover rounded-lg"
+              width={300}
+              height={400}
+              className="w-full h-auto object-cover rounded-lg"
             />
-            <p className="text-sm text-gray-600 mt-2">
-              Uploaded by:{" "}
-              <span className="font-semibold">
-                {image.userId?.name || "Unknown User"}
-              </span>
-            </p>
+            {session?.user?.id === image.userId?._id && (
+              <button
+                onClick={() =>
+                  toast("Are you sure?", {
+                    description: "Do you really want to delete this image?",
+                    action: {
+                      label: "Delete",
+                      onClick: () => handleDelete(image._id),
+                    },
+                  })
+                }
+                className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
+              >
+                <FaTrash size={16} />
+              </button>
+            )}
           </div>
         ))}
       </div>
